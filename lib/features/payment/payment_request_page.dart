@@ -225,6 +225,13 @@ class _PaymentRequestPageState extends State<PaymentRequestPage> {
                         ),
                 ),
               ),
+
+              const SizedBox(height: 20),
+
+              const Text(
+                "Transaksi aman & terenkripsi",
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
             ],
           ),
         ),
