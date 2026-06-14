@@ -146,7 +146,46 @@ class WalletHomePage extends StatelessWidget {
 
                 const SizedBox(height: 24),
 
-               
+                // MENU CEPAT
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      _MenuButton(icon: Icons.add, title: "Top Up"),
+                      _MenuButton(icon: Icons.send, title: "Transfer"),
+                      _MenuButton(icon: Icons.history, title: "Riwayat"),
+                      _MenuButton(icon: Icons.qr_code, title: "QR Pay"),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 25),
+
+                // INFO AKUN
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      _InfoCard(
+                        icon: Icons.email,
+                        title: "Email",
+                        value: user.email ?? "-",
+                      ),
+
+                      const SizedBox(height: 12),
+
+                      _InfoCard(
+                        icon: Icons.verified_user,
+                        title: "UID",
+                        value: user.uid,
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 25),
+              ],
             ),
           );
         },
