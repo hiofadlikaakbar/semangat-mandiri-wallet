@@ -111,6 +111,23 @@ class _PaymentRequestPageState extends State<PaymentRequestPage> {
                     const Icon(Icons.store, size: 60, color: Colors.white),
 
                     const SizedBox(height: 12),
+
+                    const Text(
+                      "Merchant",
+                      style: TextStyle(color: Colors.white70),
+                    ),
+
+                    const SizedBox(height: 6),
+
+                    Text(
+                      widget.merchantName,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
               ),
