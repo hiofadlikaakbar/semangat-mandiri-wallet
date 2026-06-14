@@ -75,4 +75,21 @@ class _PaymentRequestPageState extends State<PaymentRequestPage> {
 
     setState(() => isLoading = false);
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF7F8FB),
+
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: const Color(0xFFFF8C42),
+        title: const Text(
+          "Konfirmasi Pembayaran",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+    );
+  }
 }
