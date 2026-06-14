@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "252727300670",
+    "project_id": "marketplace-uas-hio",
+    "storage_bucket": "marketplace-uas-hio.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:252727300670:android:57838e5e806dbfaf49376f",
+        "android_client_info": {
+          "package_name": "com.example.marketplace_uts"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn3T2TawVuuO-2rA5HxKenYmy-mQZ40pY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:252727300670:android:7929efce327a675549376f",
+        "android_client_info": {
+          "package_name": "com.example.semangat_mandiri_wallet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn3T2TawVuuO-2rA5HxKenYmy-mQZ40pY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:252727300670:android:585d2c595955eab549376f",
+        "android_client_info": {
+          "package_name": "com.hio.marketplace_uas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn3T2TawVuuO-2rA5HxKenYmy-mQZ40pY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
