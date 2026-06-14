@@ -200,6 +200,31 @@ class _PaymentRequestPageState extends State<PaymentRequestPage> {
               ),
 
               const SizedBox(height: 30),
+
+              // BUTTON
+              SizedBox(
+                width: double.infinity,
+                height: 55,
+                child: ElevatedButton(
+                  onPressed: isLoading ? null : processPayment,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFFF8C42),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: isLoading
+                      ? const CircularProgressIndicator(color: Colors.white)
+                      : const Text(
+                          "Bayar Sekarang",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                ),
+              ),
             ],
           ),
         ),
