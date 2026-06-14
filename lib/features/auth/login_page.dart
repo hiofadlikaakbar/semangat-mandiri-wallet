@@ -93,6 +93,24 @@ class _LoginPageState extends State<LoginPage> {
                         width: 100,
                       ),
                     ),
+
+                    const SizedBox(height: 20),
+
+                    const Text(
+                      "Semangat Mandiri Wallet",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    const Text(
+                      "Akses saldo dan transaksi digitalmu",
+                      style: TextStyle(color: Colors.white70, fontSize: 14),
+                    ),
                   ],
                 ),
               ),
