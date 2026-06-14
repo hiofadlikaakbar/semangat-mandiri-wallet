@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../wallet/wallet_home_page.dart';
 
 class LoginPage extends StatefulWidget {
