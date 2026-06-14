@@ -94,8 +94,26 @@ class _PaymentRequestPageState extends State<PaymentRequestPage> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: Column(children: [
-           
+          child: Column(
+            children: [
+              // MERCHANT CARD
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFFFFB347), Color(0xFFFF8C42)],
+                  ),
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Column(
+                  children: [
+                    const Icon(Icons.store, size: 60, color: Colors.white),
+
+                    const SizedBox(height: 12),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
