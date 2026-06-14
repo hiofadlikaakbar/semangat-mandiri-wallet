@@ -164,6 +164,18 @@ class _PaymentRequestPageState extends State<PaymentRequestPage> {
                     ),
                   ],
                 ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Masukkan PIN",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
               ),
 
               const SizedBox(height: 30),
