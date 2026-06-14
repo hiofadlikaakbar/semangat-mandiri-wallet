@@ -1,15 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import '../transaction/transaction_page.dart';
 import '../auth/login_page.dart';
 
-class WalletHomePage extends StatelessWidget {
+class WalletHomePage extends StatefulWidget {
   const WalletHomePage({super.key});
 
   @override
+  State<WalletHomePage> createState() => _WalletHomePageState();
+}
+
+class _WalletHomePageState extends State<WalletHomePage> {
+  final user = FirebaseAuth.instance.currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    _ensureWalletExists();
+  }
+
+  Future<void> _ensureWalletExists() async {
+    if (user == null) return;
+
+    final docRef = FirebaseFirestore.instance
+        .collection('wallet_users')
+        .doc(user!.uid);
+
+    final doc = await docRef.get();
+
+    if (!doc.exists) {
+      await docRef.set({
+        "balance": 0,
+        "uid": user!.uid,
+        "createdAt": FieldValue.serverTimestamp(),
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      return const Scaffold(body: Center(child: Text("User tidak ditemukan")));
+    }
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FB),
@@ -25,12 +58,23 @@ class WalletHomePage extends StatelessWidget {
           }
 
           if (!snapshot.hasData || !snapshot.data!.exists) {
-            return const Center(child: Text("Data wallet belum tersedia"));
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Data wallet belum tersedia"),
+                  const SizedBox(height: 10),
+                  Text("UID: ${user!.uid}"),
+                ],
+              ),
+            );
           }
 
           final data = snapshot.data!.data() as Map<String, dynamic>;
 
           final balance = data['balance'] ?? 0;
+          final email = user!.email ?? "-";
+          final uid = user!.uid;
 
           return SingleChildScrollView(
             child: Column(
@@ -42,8 +86,6 @@ class WalletHomePage extends StatelessWidget {
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [Color(0xFFFFB347), Color(0xFFFF8C42)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(35),
@@ -71,7 +113,7 @@ class WalletHomePage extends StatelessWidget {
                                   style: TextStyle(color: Colors.white70),
                                 ),
                                 Text(
-                                  user.email ?? "-",
+                                  email,
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -85,9 +127,7 @@ class WalletHomePage extends StatelessWidget {
                             onPressed: () async {
                               await FirebaseAuth.instance.signOut();
 
-                              if (!context.mounted) {
-                                return;
-                              }
+                              if (!context.mounted) return;
 
                               Navigator.pushAndRemoveUntil(
                                 context,
@@ -104,7 +144,7 @@ class WalletHomePage extends StatelessWidget {
 
                       const SizedBox(height: 25),
 
-                      // CARD SALDO
+                      // SALDO CARD
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(24),
@@ -144,47 +184,52 @@ class WalletHomePage extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
 
-                // MENU CEPAT
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      _MenuButton(icon: Icons.add, title: "Top Up"),
-                      _MenuButton(icon: Icons.send, title: "Transfer"),
-                      _MenuButton(icon: Icons.history, title: "Riwayat"),
-                      _MenuButton(icon: Icons.qr_code, title: "QR Pay"),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                // INFO AKUN
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _InfoCard(
-                        icon: Icons.email,
-                        title: "Email",
-                        value: user.email ?? "-",
+                      const Text(
+                        "Info Akun",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
 
                       const SizedBox(height: 12),
 
-                      _InfoCard(
-                        icon: Icons.verified_user,
-                        title: "UID",
-                        value: user.uid,
+                      _infoCard("Email", email),
+                      const SizedBox(height: 10),
+                      _infoCard("UID", uid),
+                      const SizedBox(height: 20),
+
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFFF8C42),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const TransactionPage(),
+                              ),
+                            );
+                          },
+                          child: const Text("Lihat Transaksi"),
+                        ),
                       ),
                     ],
                   ),
                 ),
-
-                const SizedBox(height: 25),
               ],
             ),
           );
@@ -192,67 +237,21 @@ class WalletHomePage extends StatelessWidget {
       ),
     );
   }
-}
 
-class _MenuButton extends StatelessWidget {
-  final IconData icon;
-  final String title;
-
-  const _MenuButton({required this.icon, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 65,
-          height: 65,
-          decoration: BoxDecoration(
-            color: const Color(0xFFFF8C42).withOpacity(0.12),
-            borderRadius: BorderRadius.circular(18),
-          ),
-          child: Icon(icon, color: const Color(0xFFFF8C42)),
-        ),
-
-        const SizedBox(height: 8),
-
-        Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
-      ],
-    );
-  }
-}
-
-class _InfoCard extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String value;
-
-  const _InfoCard({
-    required this.icon,
-    required this.title,
-    required this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _infoCard(String title, String value) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
+          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10),
         ],
       ),
       child: Row(
         children: [
-          Icon(icon, color: const Color(0xFFFF8C42)),
-
-          const SizedBox(width: 14),
+          Text("$title: ", style: const TextStyle(fontWeight: FontWeight.bold)),
+          Expanded(child: Text(value)),
         ],
       ),
     );
