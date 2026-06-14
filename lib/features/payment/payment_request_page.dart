@@ -150,6 +150,22 @@ class _PaymentRequestPageState extends State<PaymentRequestPage> {
 
               const SizedBox(height: 30),
 
+              // PIN CARD
+              Container(
+                padding: const EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 12,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
+                ),
+              ),
+
               const SizedBox(height: 30),
             ],
           ),
