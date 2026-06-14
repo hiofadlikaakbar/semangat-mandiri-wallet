@@ -174,6 +174,27 @@ class _PaymentRequestPageState extends State<PaymentRequestPage> {
                         fontSize: 16,
                       ),
                     ),
+
+                    const SizedBox(height: 12),
+
+                    TextField(
+                      controller: pinController,
+                      obscureText: true,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: "••••••",
+                        prefixIcon: const Icon(
+                          Icons.lock_outline,
+                          color: Color(0xFFFF8C42),
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF5F5F5),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
