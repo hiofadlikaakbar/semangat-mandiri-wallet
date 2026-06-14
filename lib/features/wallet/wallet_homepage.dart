@@ -199,4 +199,25 @@ class _MenuButton extends StatelessWidget {
   final String title;
 
   const _MenuButton({required this.icon, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 65,
+          height: 65,
+          decoration: BoxDecoration(
+            color: const Color(0xFFFF8C42).withOpacity(0.12),
+            borderRadius: BorderRadius.circular(18),
+          ),
+          child: Icon(icon, color: const Color(0xFFFF8C42)),
+        ),
+
+        const SizedBox(height: 8),
+
+        Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
+      ],
+    );
+  }
 }
