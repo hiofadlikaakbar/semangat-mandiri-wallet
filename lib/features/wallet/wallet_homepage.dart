@@ -35,7 +35,32 @@ class WalletHomePage extends StatelessWidget {
           return SingleChildScrollView(
             child: Column(
               children: [
-          
+                // HEADER
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.fromLTRB(20, 55, 20, 35),
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xFFFFB347), Color(0xFFFF8C42)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(35),
+                      bottomRight: Radius.circular(35),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          const CircleAvatar(
+                            radius: 26,
+                            backgroundColor: Colors.white,
+                            child: Icon(Icons.person, color: Color(0xFFFF8C42)),
+                          ),
+
+               
                   
                    
 
