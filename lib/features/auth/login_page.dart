@@ -153,6 +153,27 @@ class _LoginPageState extends State<LoginPage> {
                           style: TextStyle(color: Colors.grey.shade600),
                         ),
                       ),
+
+                      const SizedBox(height: 25),
+
+                      TextField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          hintText: "Masukkan Email",
+                          prefixIcon: const Icon(
+                            Icons.email_outlined,
+                            color: Color(0xFFFF8C42),
+                          ),
+                          filled: true,
+                          fillColor: const Color(0xFFF8F8F8),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(18),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 16),
                     ],
                   ),
                 ),
