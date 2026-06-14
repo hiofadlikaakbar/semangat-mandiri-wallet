@@ -127,7 +127,24 @@ class WalletHomePage extends StatelessWidget {
                               style: TextStyle(color: Colors.grey),
                             ),
 
-                   
+                            const SizedBox(height: 8),
+
+                            Text(
+                              "Rp ${balance.toString()}",
+                              style: const TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFFF8C42),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 24),
 
                
             ),
