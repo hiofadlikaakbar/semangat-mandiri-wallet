@@ -221,6 +221,27 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                         ),
                       ),
+
+                      const SizedBox(height: 20),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.security,
+                            size: 18,
+                            color: Colors.green.shade600,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            "Login Aman & Terenkripsi",
+                            style: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
