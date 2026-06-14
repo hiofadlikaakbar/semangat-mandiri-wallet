@@ -193,3 +193,10 @@ class WalletHomePage extends StatelessWidget {
     );
   }
 }
+
+class _MenuButton extends StatelessWidget {
+  final IconData icon;
+  final String title;
+
+  const _MenuButton({required this.icon, required this.title});
+}
