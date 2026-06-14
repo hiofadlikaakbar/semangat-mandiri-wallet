@@ -128,6 +128,22 @@ class _PaymentRequestPageState extends State<PaymentRequestPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+
+                    const SizedBox(height: 20),
+
+                    const Text(
+                      "Total Pembayaran",
+                      style: TextStyle(color: Colors.white70),
+                    ),
+
+                    Text(
+                      "Rp ${widget.amount}",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
               ),
