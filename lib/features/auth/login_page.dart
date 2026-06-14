@@ -79,6 +79,22 @@ class _LoginPageState extends State<LoginPage> {
                     bottomRight: Radius.circular(40),
                   ),
                 ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Image.asset(
+                        "images/semangat-mandiri-wallet.png",
+                        height: 100,
+                        width: 100,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
