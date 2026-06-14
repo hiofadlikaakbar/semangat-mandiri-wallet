@@ -131,6 +131,30 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
+                  child: Column(
+                    children: [
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Masuk Akun",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 6),
+
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Silakan login untuk melanjutkan",
+                          style: TextStyle(color: Colors.grey.shade600),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
