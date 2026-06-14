@@ -147,6 +147,10 @@ class _PaymentRequestPageState extends State<PaymentRequestPage> {
                   ],
                 ),
               ),
+
+              const SizedBox(height: 30),
+
+              const SizedBox(height: 30),
             ],
           ),
         ),
