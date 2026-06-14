@@ -221,3 +221,40 @@ class _MenuButton extends StatelessWidget {
     );
   }
 }
+
+class _InfoCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String value;
+
+  const _InfoCard({
+    required this.icon,
+    required this.title,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: const Color(0xFFFF8C42)),
+
+          const SizedBox(width: 14),
+        ],
+      ),
+    );
+  }
+}
