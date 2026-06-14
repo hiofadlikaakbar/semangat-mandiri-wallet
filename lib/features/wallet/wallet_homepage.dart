@@ -104,7 +104,29 @@ class WalletHomePage extends StatelessWidget {
 
                       const SizedBox(height: 25),
 
-               
+                      // CARD SALDO
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: Column(
+                          children: [
+                            const Icon(
+                              Icons.account_balance_wallet,
+                              size: 60,
+                              color: Color(0xFFFF8C42),
+                            ),
+
+                            const SizedBox(height: 10),
+
+                            const Text(
+                              "Saldo E-Money",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+
                    
 
                
