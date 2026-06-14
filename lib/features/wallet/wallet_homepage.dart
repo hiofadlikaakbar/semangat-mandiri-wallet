@@ -81,7 +81,30 @@ class WalletHomePage extends StatelessWidget {
                             ),
                           ),
 
-                  
+                          IconButton(
+                            onPressed: () async {
+                              await FirebaseAuth.instance.signOut();
+
+                              if (!context.mounted) {
+                                return;
+                              }
+
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const LoginPage(),
+                                ),
+                                (route) => false,
+                              );
+                            },
+                            icon: const Icon(Icons.logout, color: Colors.white),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 25),
+
+               
                    
 
                
