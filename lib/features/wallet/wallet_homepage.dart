@@ -60,7 +60,27 @@ class WalletHomePage extends StatelessWidget {
                             child: Icon(Icons.person, color: Color(0xFFFF8C42)),
                           ),
 
-               
+                          const SizedBox(width: 12),
+
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Selamat Datang",
+                                  style: TextStyle(color: Colors.white70),
+                                ),
+                                Text(
+                                  user.email ?? "-",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
                   
                    
 
