@@ -174,6 +174,26 @@ class _LoginPageState extends State<LoginPage> {
                       ),
 
                       const SizedBox(height: 16),
+
+                      TextField(
+                        controller: passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintText: "Masukkan Password",
+                          prefixIcon: const Icon(
+                            Icons.lock_outline,
+                            color: Color(0xFFFF8C42),
+                          ),
+                          filled: true,
+                          fillColor: const Color(0xFFF8F8F8),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(18),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 28),
                     ],
                   ),
                 ),
