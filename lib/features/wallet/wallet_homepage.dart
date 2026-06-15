@@ -229,16 +229,6 @@ class _WalletHomePageState extends State<WalletHomePage> {
                               },
                             ),
                           ),
-
-                          const SizedBox(width: 12),
-
-                          Expanded(
-                            child: _menuCard(
-                              icon: Icons.account_balance,
-                              title: "Wallet",
-                              onTap: () {},
-                            ),
-                          ),
                         ],
                       ),
 
