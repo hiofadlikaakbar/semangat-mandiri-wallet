@@ -16,8 +16,6 @@ class TransactionPage extends StatelessWidget {
 
     final stream = FirebaseFirestore.instance
         .collection('transactions')
-        .where('userId', isEqualTo: user.uid)
-        .orderBy('createdAt', descending: true)
         .snapshots();
 
     return Scaffold(
@@ -45,12 +43,19 @@ class TransactionPage extends StatelessWidget {
           }
 
           final docs = snapshot.data!.docs;
+          final filteredDocs = docs.where((doc) {
+            final data = doc.data() as Map<String, dynamic>;
+            return data['userId'] == user.uid;
+          }).toList();
+          if (filteredDocs.isEmpty) {
+            return const Center(child: Text("Belum ada transaksi"));
+          }
 
           return ListView.builder(
             padding: const EdgeInsets.all(16),
-            itemCount: docs.length,
+            itemCount: filteredDocs.length,
             itemBuilder: (context, index) {
-              final data = docs[index].data() as Map<String, dynamic>;
+              final data = filteredDocs[index].data() as Map<String, dynamic>;
 
               final amount = data['amount'] ?? 0;
               final status = data['status'] ?? 'unknown';

@@ -82,151 +82,188 @@ class _WalletHomePageState extends State<WalletHomePage> {
                 // HEADER
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.fromLTRB(20, 55, 20, 35),
+                  padding: const EdgeInsets.fromLTRB(20, 60, 20, 100),
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                       colors: [Color(0xFFFFB347), Color(0xFFFF8C42)],
                     ),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(35),
-                      bottomRight: Radius.circular(35),
-                    ),
                   ),
-                  child: Column(
+                  child: Row(
                     children: [
-                      Row(
-                        children: [
-                          const CircleAvatar(
-                            radius: 26,
-                            backgroundColor: Colors.white,
-                            child: Icon(Icons.person, color: Color(0xFFFF8C42)),
-                          ),
-
-                          const SizedBox(width: 12),
-
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "Selamat Datang",
-                                  style: TextStyle(color: Colors.white70),
-                                ),
-                                Text(
-                                  email,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          IconButton(
-                            onPressed: () async {
-                              await FirebaseAuth.instance.signOut();
-
-                              if (!context.mounted) return;
-
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const LoginPage(),
-                                ),
-                                (route) => false,
-                              );
-                            },
-                            icon: const Icon(Icons.logout, color: Colors.white),
-                          ),
-                        ],
+                      const CircleAvatar(
+                        radius: 28,
+                        backgroundColor: Colors.white,
+                        child: Icon(Icons.person, color: Color(0xFFFF8C42)),
                       ),
 
-                      const SizedBox(height: 25),
+                      const SizedBox(width: 14),
 
-                      // SALDO CARD
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(24),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                        ),
+                      Expanded(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Icon(
-                              Icons.account_balance_wallet,
-                              size: 60,
-                              color: Color(0xFFFF8C42),
-                            ),
-
-                            const SizedBox(height: 10),
-
                             const Text(
-                              "Saldo E-Money",
-                              style: TextStyle(color: Colors.grey),
+                              "Selamat Datang",
+                              style: TextStyle(color: Colors.white70),
                             ),
-
-                            const SizedBox(height: 8),
 
                             Text(
-                              "Rp ${balance.toString()}",
+                              email,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                fontSize: 32,
+                                color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFFFF8C42),
+                                fontSize: 16,
                               ),
                             ),
                           ],
                         ),
                       ),
+
+                      IconButton(
+                        onPressed: () async {
+                          await FirebaseAuth.instance.signOut();
+
+                          if (!context.mounted) return;
+
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const LoginPage(),
+                            ),
+                            (route) => false,
+                          );
+                        },
+                        icon: const Icon(Icons.logout, color: Colors.white),
+                      ),
                     ],
                   ),
                 ),
 
-                const SizedBox(height: 20),
-
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Info Akun",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                Transform.translate(
+                  offset: const Offset(0, -70),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(28),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.08),
+                            blurRadius: 20,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
                       ),
+                      child: Column(
+                        children: [
+                          const Icon(
+                            Icons.account_balance_wallet,
+                            size: 55,
+                            color: Color(0xFFFF8C42),
+                          ),
 
-                      const SizedBox(height: 12),
+                          const SizedBox(height: 12),
 
-                      _infoCard("Email", email),
-                      const SizedBox(height: 10),
-                      _infoCard("UID", uid),
-                      const SizedBox(height: 20),
+                          const Text(
+                            "Saldo Wallet",
+                            style: TextStyle(color: Colors.grey),
+                          ),
 
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFFF8C42),
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                          const SizedBox(height: 8),
+
+                          Text(
+                            "Rp $balance",
+                            style: const TextStyle(
+                              fontSize: 34,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFFFF8C42),
                             ),
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const TransactionPage(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      // QUICK MENU
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _menuCard(
+                              icon: Icons.receipt_long,
+                              title: "Riwayat",
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const TransactionPage(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+
+                          const SizedBox(width: 12),
+
+                          Expanded(
+                            child: _menuCard(
+                              icon: Icons.account_balance,
+                              title: "Wallet",
+                              onTap: () {},
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(18),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 10,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Informasi Akun",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
                               ),
-                            );
-                          },
-                          child: const Text("Lihat Transaksi"),
+                            ),
+
+                            const SizedBox(height: 16),
+
+                            _infoRow(Icons.email_outlined, email),
+
+                            const Divider(),
+
+                            _infoRow(Icons.badge_outlined, uid),
+                          ],
                         ),
                       ),
+
+                      const SizedBox(height: 30),
                     ],
                   ),
                 ),
@@ -238,22 +275,45 @@ class _WalletHomePageState extends State<WalletHomePage> {
     );
   }
 
-  Widget _infoCard(String title, String value) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10),
-        ],
+  Widget _menuCard({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(20),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10),
+          ],
+        ),
+        child: Column(
+          children: [
+            Icon(icon, size: 32, color: const Color(0xFFFF8C42)),
+
+            const SizedBox(height: 10),
+
+            Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+          ],
+        ),
       ),
-      child: Row(
-        children: [
-          Text("$title: ", style: const TextStyle(fontWeight: FontWeight.bold)),
-          Expanded(child: Text(value)),
-        ],
-      ),
+    );
+  }
+
+  Widget _infoRow(IconData icon, String value) {
+    return Row(
+      children: [
+        Icon(icon, color: const Color(0xFFFF8C42)),
+
+        const SizedBox(width: 12),
+
+        Expanded(child: Text(value, overflow: TextOverflow.ellipsis)),
+      ],
     );
   }
 }
