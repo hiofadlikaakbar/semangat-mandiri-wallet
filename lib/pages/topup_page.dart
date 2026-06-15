@@ -93,6 +93,8 @@ class _TopupPageState extends State<TopupPage> {
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
+
+      body: Padding(padding: const EdgeInsets.all(20), child: Column()),
     );
   }
 }
