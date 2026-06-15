@@ -82,6 +82,17 @@ class _TopupPageState extends State<TopupPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: const Color(0xFFF8F9FB));
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8F9FB),
+
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFFF8C42),
+        title: const Text(
+          "Top Up Saldo",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+    );
   }
 }
