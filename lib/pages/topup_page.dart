@@ -73,4 +73,15 @@ class _TopupPageState extends State<TopupPage> {
       isLoading = false;
     });
   }
+
+  @override
+  void dispose() {
+    amountController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(backgroundColor: const Color(0xFFF8F9FB));
+  }
 }
