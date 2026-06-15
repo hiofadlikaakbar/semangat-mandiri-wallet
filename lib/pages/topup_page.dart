@@ -110,7 +110,19 @@ class _TopupPageState extends State<TopupPage> {
               ),
             ),
 
-         
+            const SizedBox(height: 20),
+
+            SizedBox(
+              width: double.infinity,
+              height: 55,
+              child: ElevatedButton(
+                onPressed: isLoading ? null : topup,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFF8C42),
+                ),
+             
+            ),
+          ],
         ),
       ),
     );
