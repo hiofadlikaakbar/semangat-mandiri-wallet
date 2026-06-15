@@ -75,7 +75,6 @@ class _WalletHomePageState extends State<WalletHomePage> {
 
           final balance = data['balance'] ?? 0;
           final email = user!.email ?? "-";
-          final uid = user!.uid;
 
           return SingleChildScrollView(
             child: Column(
@@ -272,10 +271,6 @@ class _WalletHomePageState extends State<WalletHomePage> {
                             const SizedBox(height: 16),
 
                             _infoRow(Icons.email_outlined, email),
-
-                            const Divider(),
-
-                            _infoRow(Icons.badge_outlined, uid),
                           ],
                         ),
                       ),
