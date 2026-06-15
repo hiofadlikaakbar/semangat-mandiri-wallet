@@ -120,7 +120,16 @@ class _TopupPageState extends State<TopupPage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFFF8C42),
                 ),
-             
+                child: isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text(
+                        "Top Up",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+              ),
             ),
           ],
         ),
