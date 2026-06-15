@@ -94,7 +94,25 @@ class _TopupPageState extends State<TopupPage> {
         iconTheme: const IconThemeData(color: Colors.white),
       ),
 
-      body: Padding(padding: const EdgeInsets.all(20), child: Column()),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            TextField(
+              controller: amountController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                hintText: "Masukkan nominal",
+                prefixIcon: const Icon(Icons.account_balance_wallet),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+            ),
+
+         
+        ),
+      ),
     );
   }
 }
