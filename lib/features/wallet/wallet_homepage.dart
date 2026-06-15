@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../transaction/transaction_page.dart';
 import '../auth/login_page.dart';
+import '../../pages/topup_page.dart';
 
 class WalletHomePage extends StatefulWidget {
   const WalletHomePage({super.key});
@@ -208,6 +209,22 @@ class _WalletHomePageState extends State<WalletHomePage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (_) => const TransactionPage(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: _menuCard(
+                              icon: Icons.add,
+                              title: "Top Up",
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const TopupPage(),
                                   ),
                                 );
                               },

@@ -59,6 +59,7 @@ class TransactionPage extends StatelessWidget {
 
               final amount = data['amount'] ?? 0;
               final status = data['status'] ?? 'unknown';
+              final type = data['type'] ?? 'payment';
 
               final timestamp = data['createdAt'] as Timestamp?;
               final date = timestamp != null
@@ -108,13 +109,30 @@ class TransactionPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Rp ${amount.toString()}",
+                            type == "topup"
+                                ? "Top Up Saldo"
+                                : "Pembayaran Marketplace",
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                              fontSize: 15,
                             ),
                           ),
+
                           const SizedBox(height: 4),
+
+                          Text(
+                            type == "topup" ? "+ Rp $amount" : "- Rp $amount",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: type == "topup"
+                                  ? Colors.green
+                                  : Colors.red,
+                            ),
+                          ),
+
+                          const SizedBox(height: 4),
+
                           Text(
                             date,
                             style: TextStyle(color: Colors.grey.shade600),
@@ -122,7 +140,6 @@ class TransactionPage extends StatelessWidget {
                         ],
                       ),
                     ),
-
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 10,
