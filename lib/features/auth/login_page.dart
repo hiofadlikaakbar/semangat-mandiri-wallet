@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../wallet/wallet_homepage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../services/authenticator_service.dart';
+import '../auth/setup_authenticator.dart';
+import '../auth/otp_totp_authenticator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -21,10 +25,73 @@ class _LoginPageState extends State<LoginPage> {
         isLoading = true;
       });
 
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+
+      final uid = credential.user!.uid;
+
+      final userDoc = FirebaseFirestore.instance
+          .collection('wallet_users')
+          .doc(uid);
+
+      final doc = await userDoc.get();
+
+      String? authSecret;
+
+      if (!doc.exists) {
+        await userDoc.set({
+          'email': emailController.text.trim(),
+          'authSecret': null,
+          'createdAt': Timestamp.now(),
+        });
+
+        authSecret = null;
+      } else {
+        authSecret = doc.data()?['authSecret'];
+      }
+
+      // Setup pertama kali
+      if (authSecret == null || authSecret.isEmpty) {
+        authSecret = AuthenticatorService.generateSecret();
+
+        await userDoc.update({'authSecret': authSecret});
+
+        if (!mounted) return;
+
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => SetupAuthenticatorPage(
+              email: emailController.text.trim(),
+              secret: authSecret!,
+            ),
+          ),
+        );
+      }
+
+      if (!mounted) return;
+
+      // Verifikasi Google Authenticator
+      final verified = await Navigator.push<bool>(
+        context,
+        MaterialPageRoute(
+          builder: (_) => AuthVerificationScreen(secret: authSecret!),
+        ),
+      );
+
+      if (verified != true) {
+        await FirebaseAuth.instance.signOut();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Verifikasi Google Authenticator gagal"),
+          ),
+        );
+
+        return;
+      }
 
       if (!mounted) return;
 
