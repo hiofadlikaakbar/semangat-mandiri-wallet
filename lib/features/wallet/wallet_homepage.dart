@@ -139,6 +139,36 @@ class _WalletHomePageState extends State<WalletHomePage> {
                         },
                         icon: const Icon(Icons.logout, color: Colors.white),
                       ),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.qr_code,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/qr');
+                            },
+                          ),
+
+                          IconButton(
+                            onPressed: () async {
+                              await FirebaseAuth.instance.signOut();
+
+                              if (!context.mounted) return;
+
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const LoginPage(),
+                                ),
+                                (route) => false,
+                              );
+                            },
+                            icon: const Icon(Icons.logout, color: Colors.white),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

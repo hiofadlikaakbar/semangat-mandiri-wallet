@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import './qr/qr_page.dart';
 import 'firebase_options.dart';
 import 'features/auth/login_page.dart';
 
@@ -21,6 +21,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Semangat Mandiri Wallet',
       home: const LoginPage(),
+
+      routes: {
+        '/login': (context) => const LoginPage(),
+        '/qr': (context) => const QrPage(),
+      },
     );
   }
 }
