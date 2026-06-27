@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../auth/otp_totp_authenticator.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
 class PaymentRequestPage extends StatefulWidget {
   final String transactionId;
@@ -22,59 +23,83 @@ class PaymentRequestPage extends StatefulWidget {
 
 class _PaymentRequestPageState extends State<PaymentRequestPage> {
   bool isLoading = false;
-
   Future<void> processPayment() async {
+    if (isLoading) return;
+
     setState(() => isLoading = true);
 
-    final user = FirebaseAuth.instance.currentUser;
-
     try {
-      final docRef = FirebaseFirestore.instance
-          .collection('wallet_users')
-          .doc(user!.uid);
+      final user = FirebaseAuth.instance.currentUser;
 
-      final snapshot = await docRef.get();
-
-      if (!snapshot.exists) {
-        throw Exception("Wallet tidak ditemukan");
+      if (user == null) {
+        throw Exception("User belum login");
       }
 
-      final data = snapshot.data() as Map<String, dynamic>;
-      final balance = data['balance'] ?? 0;
+      final walletRef = FirebaseFirestore.instance
+          .collection("wallet_users")
+          .doc(user.uid);
 
-      if (balance < widget.amount) {
-        throw Exception("Saldo tidak cukup");
-      }
+      await FirebaseFirestore.instance.runTransaction((tx) async {
+        final walletSnap = await tx.get(walletRef);
 
-      await docRef.update({'balance': balance - widget.amount});
+        if (!walletSnap.exists) {
+          throw Exception("Wallet tidak ditemukan");
+        }
 
+        final balance = walletSnap.data()?["balance"] ?? 0;
+
+        if (balance < widget.amount) {
+          throw Exception("Saldo tidak cukup");
+        }
+
+        // Potong saldo wallet
+        tx.update(walletRef, {"balance": balance - widget.amount});
+
+        // Riwayat transaksi wallet
+        tx.set(
+          FirebaseFirestore.instance
+              .collection("transactions")
+              .doc(widget.transactionId),
+          {
+            "amount": widget.amount,
+            "merchant": widget.merchantName,
+            "status": "success",
+            "paidAt": FieldValue.serverTimestamp(),
+          },
+          SetOptions(merge: true),
+        );
+      });
+
+      // Update status transaksi marketplace
       await FirebaseFirestore.instance
-          .collection('transactions')
+          .collection("marketplace_transactions")
           .doc(widget.transactionId)
-          .update({
-            'status': 'success',
-            'paidAt': FieldValue.serverTimestamp(),
-          });
+          .set({
+            "status": "success",
+            "paidAt": FieldValue.serverTimestamp(),
+          }, SetOptions(merge: true));
 
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Pembayaran berhasil")));
-
+      // Kembali ke Marketplace
       await launchUrl(
         Uri.parse(
           "marketplace://payment?status=success&orderId=${widget.transactionId}",
         ),
-        mode: LaunchMode.externalApplication,
       );
+
+      if (!mounted) return;
+
+      Navigator.popUntil(context, (route) => route.isFirst);
     } catch (e) {
+      if (!mounted) return;
+
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(e.toString())));
+    } finally {
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
     }
-
-    setState(() => isLoading = false);
   }
 
   @override
