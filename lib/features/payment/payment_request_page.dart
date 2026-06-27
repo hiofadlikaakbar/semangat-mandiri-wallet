@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../auth/otp_totp_authenticator.dart';
 
 class PaymentRequestPage extends StatefulWidget {
@@ -61,7 +62,12 @@ class _PaymentRequestPageState extends State<PaymentRequestPage> {
         context,
       ).showSnackBar(const SnackBar(content: Text("Pembayaran berhasil")));
 
-      Navigator.pop(context);
+      await launchUrl(
+        Uri.parse(
+          "marketplace://payment?status=success&orderId=${widget.transactionId}",
+        ),
+        mode: LaunchMode.externalApplication,
+      );
     } catch (e) {
       ScaffoldMessenger.of(
         context,
