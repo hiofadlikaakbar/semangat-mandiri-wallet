@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../wallet/wallet_homepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../services/authenticator_service.dart';
-import '../auth/setup_authenticator.dart';
+// import '../../services/authenticator_service.dart';
+// import '../auth/setup_authenticator.dart';
 import '../auth/otp_totp_authenticator.dart';
 
 class LoginPage extends StatefulWidget {
@@ -53,23 +53,6 @@ class _LoginPageState extends State<LoginPage> {
       }
 
       // Setup pertama kali
-      if (authSecret == null || authSecret.isEmpty) {
-        authSecret = AuthenticatorService.generateSecret();
-
-        await userDoc.update({'authSecret': authSecret});
-
-        if (!mounted) return;
-
-        await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => SetupAuthenticatorPage(
-              email: emailController.text.trim(),
-              secret: authSecret!,
-            ),
-          ),
-        );
-      }
 
       if (!mounted) return;
 

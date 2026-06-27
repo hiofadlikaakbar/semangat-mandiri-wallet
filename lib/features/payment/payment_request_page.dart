@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../auth/otp_totp_authenticator.dart';
 
 class PaymentRequestPage extends StatefulWidget {
   final String transactionId;
@@ -19,7 +20,6 @@ class PaymentRequestPage extends StatefulWidget {
 }
 
 class _PaymentRequestPageState extends State<PaymentRequestPage> {
-  final pinController = TextEditingController();
   bool isLoading = false;
 
   Future<void> processPayment() async {
@@ -40,11 +40,6 @@ class _PaymentRequestPageState extends State<PaymentRequestPage> {
 
       final data = snapshot.data() as Map<String, dynamic>;
       final balance = data['balance'] ?? 0;
-      final pin = data['pin'];
-
-      if (pinController.text != pin) {
-        throw Exception("PIN salah");
-      }
 
       if (balance < widget.amount) {
         throw Exception("Saldo tidak cukup");
@@ -176,25 +171,6 @@ class _PaymentRequestPageState extends State<PaymentRequestPage> {
                     ),
 
                     const SizedBox(height: 12),
-
-                    TextField(
-                      controller: pinController,
-                      obscureText: true,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: "••••••",
-                        prefixIcon: const Icon(
-                          Icons.lock_outline,
-                          color: Color(0xFFFF8C42),
-                        ),
-                        filled: true,
-                        fillColor: const Color(0xFFF5F5F5),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -206,23 +182,64 @@ class _PaymentRequestPageState extends State<PaymentRequestPage> {
                 width: double.infinity,
                 height: 55,
                 child: ElevatedButton(
-                  onPressed: isLoading ? null : processPayment,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFF8C42),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text(
-                          "Bayar Sekarang",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  onPressed: () async {
+                    final user = FirebaseAuth.instance.currentUser;
+
+                    if (user == null) return;
+
+                    try {
+                      // 1. Ambil data secret dari Firestore
+                      final doc = await FirebaseFirestore.instance
+                          .collection(
+                            "wallet_users",
+                          ) // Pastikan nama koleksi ini sudah sesuai
+                          .doc(user.uid)
+                          .get();
+
+                      // Cek jika dokumen tidak ada atau field tidak ditemukan agar tidak crash
+                      if (!doc.exists ||
+                          doc.data() == null ||
+                          !doc.data()!.containsKey('authSecret')) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Data verifikasi tidak ditemukan."),
+                            ),
+                          );
+                        }
+                        return;
+                      }
+
+                      final secret = doc["authSecret"];
+
+                      // 2. Validasi BuildContext sebelum melakukan Navigasi (Async Gap)
+                      if (!context.mounted) return;
+
+                      final verified = await Navigator.push<bool>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              AuthVerificationScreen(secret: secret),
                         ),
+                      );
+
+                      // 3. Proses pembayaran jika hasil verifikasi sukses berstatus true
+                      if (verified == true && context.mounted) {
+                        await processPayment();
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Terjadi kesalahan: $e")),
+                        );
+                      }
+                    }
+                  },
+                  // Menambahkan text di dalam tombol yang sebelumnya hilang
+                  child: const Text(
+                    "Bayar Sekarang",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
 
