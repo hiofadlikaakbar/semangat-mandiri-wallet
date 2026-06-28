@@ -92,6 +92,4 @@ Lihat Riwayat Transaksi
 ---
 
 ## Video Demo
-
-Demo Aplikasi:
-https://www.youtube.com/watch?v=jhByjaxZ4P4
+Demo Aplikasi: [Semangat Mandiri Marketplace - Demo Aplikasi](https://www.youtube.com/watch?v=jhByjaxZ4P4)
